@@ -18,7 +18,7 @@ extern "C" {
 #endif	/* __cplusplus */
 #endif	/* __cplusplus */
 
-#define FFCONF_DEF	86604	/* Revision ID */
+#define FFCONF_DEF	80196	/* Revision ID */
 
 /*---------------------------------------------------------------------------/
 / Function Configurations
@@ -144,17 +144,19 @@ enum STORAGE {
 /* The FF_USE_LFN switches the support for LFN (long file name).
 /
 /   0: Disable LFN. FF_MAX_LFN has no effect.
-/   1: Enable LFN with static working buffer on the BSS. Always NOT thread-safe.
+/   1: Enable LFN with static  working buffer on the BSS. Always NOT thread-safe.
 /   2: Enable LFN with dynamic working buffer on the STACK.
 /   3: Enable LFN with dynamic working buffer on the HEAP.
 /
-/  To enable the LFN, Unicode handling functions (option/unicode.c) must be added
-/  to the project. The working buffer occupies (FF_MAX_LFN + 1) * 2 bytes.
-/  FF_MAX_LFN can be in range from 12 to 255.
-/  It should be set 255 to support full featured LFN operations.
+/  To enable the LFN, ffunicode.c needs to be added to the project. The LFN function
+/  requiers certain internal working buffer occupies (FF_MAX_LFN + 1) * 2 bytes and
+/  additional (FF_MAX_LFN + 44) / 15 * 32 bytes when exFAT is enabled.
+/  The FF_MAX_LFN defines size of the working buffer in UTF-16 code unit and it can
+/  be in range of 12 to 255. It is recommended to be set it 255 to fully support LFN
+/  specification.
 /  When use stack for the working buffer, take care on stack overflow. When use heap
 /  memory for the working buffer, memory management functions, ff_memalloc() and
-/  ff_memfree(), must be added to the project. */
+/  ff_memfree() exemplified in ffsystem.c, need to be added to the project. */
 
 #ifndef __LITEOS_M__
 #define FF_LFN_UNICODE	0
@@ -273,18 +275,6 @@ enum STORAGE {
 /  disk_ioctl() function. */
 
 
-#define FF_FS_NOFSINFO	0
-/* If you need to know correct free space on the FAT32 volume, set bit 0 of this
-/  option, and f_getfree() function at first time after volume mount will force
-/  a full FAT scan. Bit 1 controls the use of last allocated cluster number.
-/
-/  bit0=0: Use free cluster count in the FSINFO if available.
-/  bit0=1: Do not trust free cluster count in the FSINFO.
-/  bit1=0: Use last allocated cluster number in the FSINFO if available.
-/  bit1=1: Do not trust last allocated cluster number in the FSINFO.
-*/
-
-
 
 /*---------------------------------------------------------------------------/
 / System Configurations
@@ -300,7 +290,7 @@ enum STORAGE {
 #define FF_FS_NORTC		0
 #define FF_NORTC_MON	1
 #define FF_NORTC_MDAY	1
-#define FF_NORTC_YEAR	2018
+#define FF_NORTC_YEAR	2020
 /* The option FF_FS_NORTC switches timestamp functiton. If the system does not have
 /  any RTC function or valid timestamp is not needed, set FF_FS_NORTC = 1 to disable
 /  the timestamp function. Every object modified by FatFs will have a fixed timestamp
@@ -308,7 +298,19 @@ enum STORAGE {
 /  To enable timestamp function (FF_FS_NORTC = 0), get_fattime() function need to be
 /  added to the project to read current time form real-time clock. FF_NORTC_MON,
 /  FF_NORTC_MDAY and FF_NORTC_YEAR have no effect.
-/  These options have no effect at read-only configuration (FF_FS_READONLY = 1). */
+/  These options have no effect in read-only configuration (FF_FS_READONLY = 1). */
+
+
+#define FF_FS_NOFSINFO	0
+/* If you need to know correct free space on the FAT32 volume, set bit 0 of this
+/  option, and f_getfree() function at first time after volume mount will force
+/  a full FAT scan. Bit 1 controls the use of last allocated cluster number.
+/
+/  bit0=0: Use free cluster count in the FSINFO if available.
+/  bit0=1: Do not trust free cluster count in the FSINFO.
+/  bit1=0: Use last allocated cluster number in the FSINFO if available.
+/  bit1=1: Do not trust last allocated cluster number in the FSINFO.
+*/
 
 #ifndef __LITEOS_M__
 #define FF_FS_LOCK	CONFIG_NFILE_DESCRIPTORS

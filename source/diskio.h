@@ -30,20 +30,23 @@ typedef enum {
 	RES_PARERR		/* 4: Invalid Parameter */
 } DRESULT;
 
+
 /*---------------------------------------*/
 /* Prototypes for disk control functions */
 
+
 DSTATUS disk_initialize (BYTE pdrv);
 DSTATUS disk_status (BYTE pdrv);
-DRESULT disk_read (BYTE pdrv, BYTE* buff, QWORD sector, UINT count);
-DRESULT disk_write (BYTE pdrv, const BYTE* buff, QWORD sector, UINT count);
+DRESULT disk_read (BYTE pdrv, BYTE* buff, LBA_t sector, UINT count);
+DRESULT disk_write (BYTE pdrv, const BYTE* buff, LBA_t sector, UINT count);
 #ifndef __LITEOS_M__
-DRESULT disk_read_readdir (BYTE pdrv, BYTE* buff, QWORD sector, UINT count);
-DRESULT disk_raw_read (int id, void* buff, QWORD sector, UINT32 count);
-DRESULT disk_raw_write (int id, void* buff, QWORD sector, UINT32 count);
+DRESULT disk_read_readdir (BYTE pdrv, BYTE* buff, LBA_t sector, UINT count);
+DRESULT disk_raw_read (int id, void* buff, LBA_t sector, UINT32 count);
+DRESULT disk_raw_write (int id, void* buff, LBA_t sector, UINT32 count);
 #endif
 DRESULT disk_ioctl (BYTE pdrv, BYTE cmd, void* buff);
 #ifdef __LITEOS_M__
+DRESULT disk_read_readdir (BYTE pdrv, BYTE* buff, LBA_t sector, UINT count);
 DWORD get_fattime (void);
 #endif
 

@@ -1,12 +1,13 @@
 /*-----------------------------------------------------------------------*/
-/* Low level disk I/O module skeleton for FatFs     (C)ChaN, 2016        */
+/* Low level disk I/O module SKELETON for FatFs     (C)ChaN, 2019        */
 /*-----------------------------------------------------------------------*/
 /* If a working storage control module is available, it should be        */
 /* attached to the FatFs via a glue function rather than modifying it.   */
 /* This is an example of glue functions to attach various exsisting      */
 /* storage control modules to the FatFs module with a defined API.       */
 /*-----------------------------------------------------------------------*/
-#include "diskio.h"
+#include "ff.h"			/* Obtains integer types */
+#include "diskio.h"		/* Declarations of disk functions */
 #ifndef __LITEOS_M__
 #include "string.h"
 #include "disk.h"
@@ -80,7 +81,7 @@ DSTATUS disk_initialize (
 DRESULT disk_read (
 	BYTE pdrv,		/* Physical drive nmuber to identify the drive */
 	BYTE *buff,		/* Data buffer to store read data */
-	QWORD sector,	/* Start sector in LBA */
+	LBA_t sector,	/* Start sector in LBA */
 	UINT count		/* Number of sectors to read */
 )
 {
@@ -105,7 +106,7 @@ DRESULT disk_read (
 DRESULT disk_read_readdir (
 	BYTE pdrv,		/* Physical drive nmuber to identify the drive */
 	BYTE *buff,		/* Data buffer to store read data */
-	QWORD sector,		/* Start sector in LBA */
+	LBA_t sector,		/* Start sector in LBA */
 	UINT count		/* Number of sectors to read */
 )
 {
@@ -122,7 +123,7 @@ DRESULT disk_read_readdir (
 
 
 #ifndef __LITEOS_M__
-DRESULT disk_raw_read (int id, void *buff, QWORD sector, UINT32 count)
+DRESULT disk_raw_read (int id, void *buff, LBA_t sector, UINT32 count)
 {
 	int result;
 
@@ -146,7 +147,7 @@ DRESULT disk_raw_read (int id, void *buff, QWORD sector, UINT32 count)
 DRESULT disk_write (
 	BYTE pdrv,			/* Physical drive nmuber to identify the drive */
 	const BYTE *buff,	/* Data to be written */
-	QWORD sector,		/* Start sector in LBA */
+	LBA_t sector,		/* Start sector in LBA */
 	UINT count			/* Number of sectors to write */
 )
 {

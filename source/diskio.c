@@ -95,10 +95,7 @@ DRESULT disk_read (
 	else
 		return RES_ERROR;
 #else
-	DRESULT res;
-
-	res = g_diskDrv.drv[pdrv]->disk_read(g_diskDrv.lun[pdrv], buff, sector, count);
-	return res;
+        return (DRESULT)g_diskDrv.drv[pdrv]->disk_read(g_diskDrv.lun[pdrv], buff, sector, count);
 #endif
 }
 
@@ -161,11 +158,7 @@ DRESULT disk_write (
 	else
 		return RES_ERROR;
 #else
-	DRESULT res;
-
-	res = g_diskDrv.drv[pdrv]->disk_write(g_diskDrv.lun[pdrv], buff, sector, count);
-
-	return res;
+        return (DRESULT)g_diskDrv.drv[pdrv]->disk_write(g_diskDrv.lun[pdrv], buff, sector, count);
 #endif
 }
 
@@ -206,10 +199,7 @@ DRESULT disk_ioctl (
 	else
 		return RES_ERROR;
 #else
-	DRESULT res;
-
-	res = g_diskDrv.drv[pdrv]->disk_ioctl(g_diskDrv.lun[pdrv], cmd, buff);
-	return res;
+        return (DRESULT)g_diskDrv.drv[pdrv]->disk_ioctl(g_diskDrv.lun[pdrv], cmd, buff);
 #endif
 }
 

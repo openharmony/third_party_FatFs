@@ -374,9 +374,6 @@ typedef struct {
 #endif
 } DIR_FILE;
 
-#define MAX(a, b, c)	(c = (a > b) ? a : b)
-#define MIN(a, b, c)	(c = (a < b) ? a : b)
-
 /* File function return code (FRESULT) */
 
 typedef enum {

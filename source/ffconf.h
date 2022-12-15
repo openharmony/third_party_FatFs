@@ -10,6 +10,7 @@
 #include "los_config.h"
 #else
 #include "fs_config.h"
+#include "vfs_config.h"
 #endif
 
 #ifdef __cplusplus
@@ -315,7 +316,7 @@ enum STORAGE {
 #ifndef __LITEOS_M__
 #define FF_FS_LOCK	CONFIG_NFILE_DESCRIPTORS
 #else
-#define FF_FS_LOCK	64
+#define FF_FS_LOCK	(CONFIG_NFILE_DESCRIPTORS + LOSCFG_MAX_OPEN_DIRS - MIN_START_FD)
 #endif
 /* The option FF_FS_LOCK switches file lock function to control duplicated file open
 /  and illegal operation to open objects. This option must be 0 when FF_FS_READONLY

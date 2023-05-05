@@ -14,14 +14,17 @@
         "en": "README"
     },
     "component": {
-        "name": "thirdparty_fatfs",
+        "name": "fatfs",
         "subsystem": "",
         "syscap": [],
         "features": [],
-        "adapted_system_type": [],
-        "rom": "",
-        "ram": "",
-        "deps": {
+        "adapted_system_type": [
+            "mini",
+            "small"
+        ],
+        "rom": "336KB",
+        "ram": "672KB",
+        "external_deps": {
             "components": [],
             "third_party": []
         },

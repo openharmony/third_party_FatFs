@@ -2,7 +2,7 @@
 #define FFCONF_H
 
 /*---------------------------------------------------------------------------/
-/  FatFs Functional Configurations
+/  Configurations of FatFs Module
 /---------------------------------------------------------------------------*/
 
 #ifndef __LITEOS_M__
@@ -19,7 +19,7 @@ extern "C" {
 #endif	/* __cplusplus */
 #endif	/* __cplusplus */
 
-#define FFCONF_DEF	80196	/* Revision ID */
+#define FFCONF_DEF	80286	/* Revision ID */
 
 /*---------------------------------------------------------------------------/
 / Function Configurations
@@ -40,14 +40,6 @@ extern "C" {
 /      are removed.
 /   2: f_opendir(), f_readdir() and f_closedir() are removed in addition to 1.
 /   3: f_lseek() function is removed in addition to 2. */
-
-
-#define FF_USE_STRFUNC	0
-/* This option switches string functions, f_gets(), f_putc(), f_puts() and f_printf().
-/
-/  0: Disable string functions.
-/  1: Enable without LF-CRLF conversion.
-/  2: Enable with LF-CRLF conversion. */
 
 
 #define FF_USE_FIND		0

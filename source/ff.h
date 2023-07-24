@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------/
-/  FatFs - Generic FAT Filesystem module  R0.14a                              /
+/  FatFs - Generic FAT Filesystem module  R0.15                               /
 /-----------------------------------------------------------------------------/
 /
-/ Copyright (C) 2020, ChaN, all right reserved.
+/ Copyright (C) 2022, ChaN, all right reserved.
 /
 / FatFs module is an open source software. Redistribution and use of FatFs in
 / source and binary forms, with or without modification, are permitted provided
@@ -20,7 +20,7 @@
 
 
 #ifndef FF_DEFINED
-#define FF_DEFINED	80196	/* Revision ID */
+#define FF_DEFINED	80286	/* Revision ID */
 
 #ifdef __cplusplus
 extern "C" {
@@ -137,8 +137,7 @@ typedef struct FAT_VIRTUAL_PARTITION {
 
 
 
-/* Type of path name strings on FatFs API */
-
+/* Type of path name strings on FatFs API (TCHAR) */
 #ifndef _INC_TCHAR
 #define _INC_TCHAR
 
@@ -415,8 +414,12 @@ typedef enum {
 } FRESULT;
 
 
+
+
 /*--------------------------------------------------------------*/
-/* FatFs module application interface                           */
+/* FatFs Module Application Interface                           */
+/*--------------------------------------------------------------*/
+
 #ifdef LOSCFG_FS_FAT_VIRTUAL_PARTITION
 FATFS*  f_getfatfs (int vol);
 FRESULT f_scanfat (FATFS* fs);
@@ -429,6 +432,7 @@ FRESULT f_makevirpart (FATFS* fs, const TCHAR* path, BYTE vol);
 FRESULT f_getvirfree (const TCHAR* path, DWORD* nclst, DWORD* cclst);
 FRESULT f_checkname (const TCHAR* path);
 #endif
+
 FRESULT f_open (FIL* fp, const TCHAR* path, BYTE mode);				/* Open or create a file */
 FRESULT f_close (FIL* fp);											/* Close an open file object */
 FRESULT f_read (FIL* fp, void* buff, UINT btr, UINT* br);			/* Read data from the file */
@@ -518,19 +522,23 @@ FRESULT set_volumn_label(FATFS *fs, const TCHAR *label);
 
 
 /*--------------------------------------------------------------*/
-/* Additional user defined functions                            */
+/* Additional Functions                                         */
+/*--------------------------------------------------------------*/
 
-/* RTC function */
+/* RTC function (provided by user) */
 #if !FF_FS_READONLY && !FF_FS_NORTC
-DWORD get_fattime (void);
+DWORD get_fattime (void);	/* Get current time */
 #endif
 
-/* LFN support functions */
-#if FF_USE_LFN >= 1						/* Code conversion (defined in unicode.c) */
+
+/* LFN support functions (defined in ffunicode.c) */
+
+#if FF_USE_LFN >= 1
 WCHAR ff_oem2uni (WCHAR oem, WORD cp);	/* OEM code to Unicode conversion */
 WCHAR ff_uni2oem (DWORD uni, WORD cp);	/* Unicode to OEM code conversion */
 DWORD ff_wtoupper (DWORD uni);			/* Unicode upper-case conversion */
 #endif
+/* O/S dependent functions (samples available in ffsystem.c) */
 void* ff_memalloc (UINT msize);			/* Allocate memory block */
 void ff_memfree (void* mblock);			/* Free memory block */
 #ifndef __LITEOS_M__
@@ -549,8 +557,8 @@ int ff_del_syncobj (FF_SYNC_t* sobj);	/* Delete a sync object */
 
 
 /*--------------------------------------------------------------*/
-/* Flags and offset address                                     */
-
+/* Flags and Offset Address                                     */
+/*--------------------------------------------------------------*/
 
 /* File access mode and open method flags (3rd argument of f_open) */
 #define	FA_READ				0x01

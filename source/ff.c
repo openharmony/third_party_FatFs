@@ -380,7 +380,7 @@ UINT   time_status = SYSTEM_TIME_ENABLE;	/*system time status */
 static BYTE CurrVol;				/* Current drive */
 #endif
 
-#if FF_FS_LOCK
+#if FF_FS_LOCK != 0
 static FILESEM Files[FF_FS_LOCK];	/* Open object lock semaphores */
 #endif
 

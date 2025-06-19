@@ -1,6 +1,5 @@
 /*------------------------------------------------------------------------*/
-/* Sample Code of OS Dependent Functions for FatFs                        */
-/* (C)ChaN, 2018                                                          */
+/* A Sample Code of User Provided OS Dependent Functions for FatFs        */
 /*------------------------------------------------------------------------*/
 
 
